@@ -7,25 +7,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const followingElement = document.querySelector('#following');
     const linkElement = document.querySelector('#link');
 
-    fetch('https://api.github.com/users/caiocosta17')
-        .then(function(res) {
-            return res.json();
-        })
-        .then(function(json) {
-            nameElement.innerText = json.name;
-            usernameElement.innerText = json.login;
-            avatarElement.src = json.avatar_url;
-            followersElement.innerText = json.followers;
-            followingElement.innerText = json.following;
-            reposElement.innerText = json.public_repos;
-            linkElement.href = json.html_url;
-        })
-        .catch(function(error) {
-            console.error('Erro ao buscar dados do GitHub', error);
-            nameElement.innerText = 'Erro ao carregar dados';
-            usernameElement.innerText = '';
-            reposElement.innerText = '-';
-            followersElement.innerText = '-';
-            followingElement.innerText = '-';
-        })
+    try {
+        fetch('https://api.github.com/users/caiocosta17')
+            .then(function(res) {
+                return res.json();
+            })
+            .then(function(json) {
+                nameElement.innerText = json.name;
+                usernameElement.innerText = json.login;
+                avatarElement.src = json.avatar_url;
+                followersElement.innerText = json.followers;
+                followingElement.innerText = json.following;
+                reposElement.innerText = json.public_repos;
+                linkElement.href = json.html_url;
+            })
+            .catch(function(error) {
+                console.error('Erro ao buscar dados do GitHub:', error);
+                nameElement.innerText = 'Erro ao carregar dados';
+                usernameElement.innerText = '';
+                reposElement.innerText = '-';
+                followersElement.innerText = '-';
+                followingElement.innerText = '-';
+            });
+    } catch (error) {
+        console.error('Um erro inesperado ocorreu:', error);
+        nameElement.innerText = 'Erro crítico';
+    }
 })
